@@ -32,7 +32,8 @@ class Photographer extends Authenticatable
         'longitude',
         'country',
         'city',
-        'rate'
+        'rate',
+        'phone_verified_at'
     ];
 
     protected $hidden = [

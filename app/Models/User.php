@@ -27,7 +27,8 @@ class User extends Authenticatable
         'dob',
         'gender',
         'latitude',
-        'longitude'
+        'longitude',
+        'phone_verified_at'
     ];
 
     /**

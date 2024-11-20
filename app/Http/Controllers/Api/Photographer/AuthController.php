@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Api\Photographer;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\OtpRequest;
 use App\Http\Requests\Photographer\LoginRequest;
 use App\Http\Requests\Photographer\RegisterRequest;
 use App\Http\Resources\SuccessResource;
 use App\Http\Resources\TokenResource;
 use App\Models\Photographer;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
@@ -40,7 +42,19 @@ class AuthController extends Controller
 
         return [
             'user' => $user,
-            'token' => $token
+            'token' => new TokenResource($token)
         ];
+    }
+
+    public function verifyOtp(OtpRequest $request)
+    {
+        $user = auth()->user();
+        $data = $request->validated();
+        if($user->otp != $data['otp']){
+            return response()->json(['message' => 'Invalid OTP'], 401);
+        }
+        $data['phone_verified_at'] = Carbon::now();
+        $user->update($data);
+        return new SuccessResource([], 'Phone verified successfully');
     }
 }
