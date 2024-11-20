@@ -14,7 +14,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'users',
+        'guard' => 'web',
         'passwords' => 'users',
     ],
 
@@ -36,18 +36,18 @@ return [
     */
 
     'guards' => [
-        // 'web' => [
-        //     'driver' => 'session',
-        //     'provider' => 'users',
-        // ],
+        'web' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
 
         'users' => [
-            'driver' => 'token',
+            'driver' => 'sanctum',
             'provider' => 'users',
         ],
 
         'photographers' => [
-            'driver' => 'token',
+            'driver' => 'sanctum',
             'provider' => 'photographers',
         ]
     ],
@@ -77,7 +77,7 @@ return [
 
         'photographers' => [
             'driver' => 'eloquent',
-            'table' => App\Models\Photographer::class,
+            'model' => App\Models\Photographer::class,
         ],
     ],
 
@@ -107,7 +107,7 @@ return [
             'expire' => 60,
             'throttle' => 60,
         ],
-        'users' => [
+        'photographers' => [
             'provider' => 'photographers',
             'table' => 'password_reset_tokens',
             'expire' => 60,

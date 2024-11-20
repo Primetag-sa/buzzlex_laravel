@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Photographer;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RegisterRequest extends FormRequest
+class OtpRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,8 +22,7 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'phone' => ['required', 'unique:photographers,phone'],
-            'password' => ['required', 'min:8'],
+            'otp' => ['required', 'min_digits:4']
         ];
     }
 }

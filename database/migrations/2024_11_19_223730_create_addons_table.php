@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('addons', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('photographer_id')->constrained('photographers', 'id')->onDelete('cascade');
             $table->string('name');
             $table->string('description')->nullable();
             $table->decimal('price');
