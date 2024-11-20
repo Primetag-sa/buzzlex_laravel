@@ -40,7 +40,7 @@ class AuthController extends Controller
         
         return [
             'user' => $user,
-            'token' => $token
+            'token' => new TokenResource($token)
         ];
     }
 }
