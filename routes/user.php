@@ -3,7 +3,6 @@
 use App\Http\Controllers\Api\FCMController;
 use App\Http\Controllers\Api\User\AuthController;
 use App\Http\Controllers\Api\User\PasswordController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 
