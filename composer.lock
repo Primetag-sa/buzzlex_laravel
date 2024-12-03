@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e1761d8eda5a5b78f93b14e5c0a07d3c",
+    "content-hash": "d3527a14c077372fbdd626e0286108ed",
     "packages": [
         {
             "name": "brick/math",
@@ -2045,6 +2045,55 @@
                 }
             ],
             "time": "2024-10-10T12:33:01+00:00"
+        },
+        {
+            "name": "mohamedgaber-intake40/filter-quent",
+            "version": "v2.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mohamedgaber-intake40/filter-quent.git",
+                "reference": "512276a29dcb0d85849e9fe8dc1aabcc22168181"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mohamedgaber-intake40/filter-quent/zipball/512276a29dcb0d85849e9fe8dc1aabcc22168181",
+                "reference": "512276a29dcb0d85849e9fe8dc1aabcc22168181",
+                "shasum": ""
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Filter\\Providers\\FilterServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Filter\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Mohamed Gaber",
+                    "email": "gaberm514@gmail.com"
+                },
+                {
+                    "name": "Osama Eltayar",
+                    "email": "osamaeltiar@yahoo.com"
+                }
+            ],
+            "description": "An easy way to filter Queries Laravel Eloquent.",
+            "homepage": "https://github.com/mohamedgaber-intake40/filter-quent",
+            "support": {
+                "issues": "https://github.com/mohamedgaber-intake40/filter-quent/issues",
+                "source": "https://github.com/mohamedgaber-intake40/filter-quent/tree/v2.0.2"
+            },
+            "time": "2022-11-27T14:45:09+00:00"
         },
         {
             "name": "monolog/monolog",

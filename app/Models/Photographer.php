@@ -2,16 +2,20 @@
 
 namespace App\Models;
 
+use Filter\Traits\HasFilter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+
 /**
  * @method static self create(array $data)
  */
-class Photographer extends Authenticatable
+class Photographer extends Authenticatable implements HasMedia
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasFilter, InteractsWithMedia;
 
     /**
     * The attributes that are mass assignable.
