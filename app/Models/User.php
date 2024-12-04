@@ -52,4 +52,14 @@ class User extends Authenticatable
         'phone_verified_at' => 'datetime',
         'dob' => 'date',
     ];
+
+    public function favorites()
+    {
+        return $this->hasMany(UserFavorite::class);
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
 }

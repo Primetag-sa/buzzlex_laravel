@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\Api\FCMController;
 use App\Http\Controllers\Api\Photographer\AuthController;
+use App\Http\Controllers\Api\Photographer\GalleryController;
 use App\Http\Controllers\Api\Photographer\PasswordController;
+use App\Http\Controllers\Photographer\MediaController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -19,5 +21,13 @@ Route::middleware('auth:photographers')->group(function () {
     Route::put('change-password', [AuthController::class, 'changePassword'])->name('password.change');
 
     Route::post('update-fcm', [FCMController::class, 'updateFcmToken'])->name('update.fcm.token');
+
+    Route::apiResource('galleries', GalleryController::class, [
+        'only' => ['index', 'show', 'store', 'update', 'destroy']
+    ]);
+
+    Route::apiResource('media', MediaController::class,[
+        'only' => ['destroy']
+    ]);
 });
 
