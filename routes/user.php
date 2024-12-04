@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\FCMController;
+use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\User\AuthController;
 use App\Http\Controllers\Api\User\PasswordController;
 use App\Http\Controllers\Api\User\PhotographerController;
@@ -23,5 +24,12 @@ Route::middleware('auth:users')->group(function () {
 
     Route::apiResource('photographers', PhotographerController::class,[
         'only' => ['index', 'show']
+    ]);
+    Route::prefix('photographers')->controller(PhotographerController::class)->group(function(){
+        Route::get('{photographers}/galleries', 'galleries');
+    });
+
+    Route::apiResource('reviews', ReviewController::class,[
+        'only' => ['store', 'show', 'index']
     ]);
 });
