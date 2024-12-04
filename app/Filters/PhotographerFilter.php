@@ -39,4 +39,10 @@ class PhotographerFilter extends Filter
         $this->query->where('city' , $city);
     }
 
+    protected function filterService($service)
+    {
+        $this->query->whereHas('services', function($query) use($service){
+            $query->where('service_id', $service);
+        });
+    }
 }
