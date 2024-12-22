@@ -4,26 +4,33 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
-
 /**
  * @method static self create(array $data)
  */
-class Service extends Model implements HasMedia
+class PhotographerAvailability extends Model
 {
-    use HasFactory, InteractsWithMedia;
+    use HasFactory;
 
     /**
     * The attributes that are mass assignable.
     * @var array
     */
+    protected $table = 'photographer_availability';
     protected $fillable = [
-        'name',
+        'photographer_id',
+        'date_from',
+        'date_to',
+        'status'
     ];
 
     //########################################### Constants ################################################
 
+    const STATUS_AVAILABLE = 'available';
+    const STATUS_UNAVAILABLE = 'unavailable';
+    const STATUSES = [
+        self::STATUS_AVAILABLE,
+        self::STATUS_UNAVAILABLE
+    ];
 
     //########################################### Accessors ################################################
 
@@ -36,6 +43,10 @@ class Service extends Model implements HasMedia
 
     //########################################### Relations ################################################
 
+    public function photographer()
+    {
+        return $this->belongsTo(Photographer::class);
+    }
 
 }
 

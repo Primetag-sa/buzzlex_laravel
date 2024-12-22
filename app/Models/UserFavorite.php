@@ -4,22 +4,23 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
  * @method static self create(array $data)
  */
-class Service extends Model implements HasMedia
+class UserFavorite extends Model
 {
-    use HasFactory, InteractsWithMedia;
+    use HasFactory;
 
     /**
     * The attributes that are mass assignable.
     * @var array
     */
     protected $fillable = [
-        'name',
+        'user_id',
+        'favoriteable_id',
+        'favoriteable_type',
     ];
 
     //########################################### Constants ################################################
@@ -36,6 +37,10 @@ class Service extends Model implements HasMedia
 
     //########################################### Relations ################################################
 
+    public function favoriteable(): MorphTo
+    {
+        return $this->morphTo();
+    }
 
 }
 
