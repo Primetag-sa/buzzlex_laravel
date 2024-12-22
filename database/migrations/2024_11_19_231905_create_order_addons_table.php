@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('order_addons', function (Blueprint $table) {
             $table->id();
             $table->foreignId('order_id')->constrained('orders','id')->onDelete('cascade');
-            $table->foreignId('addon_id')->constrained('addons','id')->onDelete('cascade');
+            $table->foreignId('addon_id')->constrained('plan_addons','id')->onDelete('cascade');
             $table->decimal('price');
             $table->timestamps();
         });
