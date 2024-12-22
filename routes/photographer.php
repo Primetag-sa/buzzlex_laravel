@@ -19,6 +19,7 @@ Route::middleware('auth:photographers')->group(function () {
     Route::post('verify-otp', [AuthController::class, 'verifyOtp'])->name('verifyOtp');
     Route::get('profile', [AuthController::class, 'profile'])->name('profile.show');
     Route::put('profile', [AuthController::class, 'updateProfile'])->name('profile.update');
+    Route::put('information', [AuthController::class, 'updateInformation'])->name('information.update');
     Route::put('change-password', [AuthController::class, 'changePassword'])->name('password.change');
 
     Route::post('update-fcm', [FCMController::class, 'updateFcmToken'])->name('update.fcm.token');

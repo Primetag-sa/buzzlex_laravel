@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Photographer;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\OtpRequest;
+use App\Http\Requests\Photographer\InformationRequest;
 use App\Http\Requests\Photographer\LoginRequest;
 use App\Http\Requests\Photographer\ProfileRequest;
 use App\Http\Requests\Photographer\RegisterRequest;
@@ -14,6 +15,7 @@ use App\Http\Resources\TokenResource;
 use App\Models\Photographer;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
@@ -82,5 +84,15 @@ class AuthController extends Controller
             'password' => Hash::make($request->input('password'))
         ]);
         return new SuccessResource([], 'Password Changed Successfully');
+    }
+
+    public function updateInformation(InformationRequest $request)
+    {
+        $user = auth()->user();
+        $data = $request->validated();
+        $user->update($data);
+        $user->services()->delete();
+        $user->services()->createMany(Arr::get($data, 'services', []));
+        return new SuccessResource([], 'Data Updated Successfully');
     }
 }

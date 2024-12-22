@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('otp',10)->nullable();
             $table->string('fcm_token')->nullable();
             $table->date('dob')->nullable();
-            $table->date('age')->nullable();
+            $table->integer('age')->nullable();
             $table->string('gender')->nullable();
             $table->decimal('latitude', 11, 8)->nullable();
             $table->decimal('longitude', 11, 8)->nullable();
