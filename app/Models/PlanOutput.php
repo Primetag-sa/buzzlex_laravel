@@ -4,22 +4,28 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+
 /**
  * @method static self create(array $data)
  */
-class Addon extends Model
+class PlanOutput extends Model implements HasMedia
 {
-    use HasFactory;
+    use HasFactory, InteractsWithMedia;
 
     /**
     * The attributes that are mass assignable.
     * @var array
     */
     protected $fillable = [
-        'photographer_id',
+        'plan_id',
         'name',
         'description',
-        'price',
+        'size',
+        'color',
+        'type',
+        'receipt_after'
     ];
 
     //########################################### Constants ################################################
@@ -36,10 +42,9 @@ class Addon extends Model
 
     //########################################### Relations ################################################
 
-    public function photographer()
+    public function plan()
     {
-        return $this->belongsTo(Photographer::class);
+        return $this->belongsTo(Plan::class);
     }
-
 }
 

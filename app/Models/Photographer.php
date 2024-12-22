@@ -70,11 +70,6 @@ class Photographer extends Authenticatable implements HasMedia
 
     //########################################### Relations ################################################
 
-    public function addons()
-    {
-        return $this->hasMany(Addon::class);
-    }
-
     public function services()
     {
         return $this->hasMany(PhotographerService::class);
@@ -93,6 +88,11 @@ class Photographer extends Authenticatable implements HasMedia
     public function galleries()
     {
         return $this->hasMany(Gallery::class);
+    }
+
+    public function plans()
+    {
+        return $this->hasMany(Plan::class);
     }
 
 }

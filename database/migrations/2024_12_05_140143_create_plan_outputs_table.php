@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('plans', function (Blueprint $table) {
+        Schema::create('plan_outputs', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('photographer_id')->constrained('photographers', 'id')->onDelete('cascade');
+            $table->foreignId('plan_id')->constrained('plans', 'id')->onDelete('cascade');
             $table->string('name');
             $table->string('description')->nullable();
-            $table->decimal('price', 10, 2);
-            $table->integer('discount_percentage')->default(0);
-            $table->boolean('is_recommended')->default(false);
-            $table->string('type');
+            $table->string('size')->nullable();
+            $table->string('color')->nullable();
+            $table->string('type')->nullable();
+            $table->integer('receipt_after')->default(1);
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('photographer_plans');
+        Schema::dropIfExists('plan_outputs');
     }
 };

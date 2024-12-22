@@ -20,7 +20,9 @@ class Plan extends Model
         'name',
         'description',
         'price',
-        'discount_percentage'
+        'discount_percentage',
+        'is_recommended',
+        'type'
     ];
 
     //########################################### Constants ################################################
@@ -45,6 +47,21 @@ class Plan extends Model
     public function features()
     {
         return $this->hasMany(PlanFeature::class);
+    }
+
+    public function addons()
+    {
+        return $this->hasMany(PlanAddon::class);
+    }
+
+    public function conditions()
+    {
+        return $this->hasMany(PlanCondition::class);
+    }
+
+    public function outputs()
+    {
+        return $this->hasMany(PlanOutput::class);
     }
 }
 
