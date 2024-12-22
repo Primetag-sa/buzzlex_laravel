@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\BillboardController;
+use App\Http\Controllers\Api\ServiceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -14,3 +16,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::apiResource('services', ServiceController::class,[
+    'only' => ['index', 'show']
+]);
+
+
+Route::apiResource('billboards', BillboardController::class,[
+    'only' => ['index', 'show']
+]);

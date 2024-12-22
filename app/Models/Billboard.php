@@ -4,15 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
-
 /**
  * @method static self create(array $data)
  */
-class Service extends Model implements HasMedia
+class Billboard extends Model
 {
-    use HasFactory, InteractsWithMedia;
+    use HasFactory;
 
     /**
     * The attributes that are mass assignable.
@@ -20,6 +17,12 @@ class Service extends Model implements HasMedia
     */
     protected $fillable = [
         'name',
+        'screen',
+        'filters'
+    ];
+
+    protected $casts = [
+        'filters' => 'array'
     ];
 
     //########################################### Constants ################################################
@@ -29,7 +32,6 @@ class Service extends Model implements HasMedia
 
 
     //########################################### Mutators #################################################
-
 
     //########################################### Scopes ###################################################
 

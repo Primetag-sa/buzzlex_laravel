@@ -10,7 +10,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 /**
  * @method static self create(array $data)
  */
-class Service extends Model implements HasMedia
+class Gallery extends Model implements HasMedia
 {
     use HasFactory, InteractsWithMedia;
 
@@ -19,7 +19,8 @@ class Service extends Model implements HasMedia
     * @var array
     */
     protected $fillable = [
-        'name',
+        'photographer_id',
+        'service_id'
     ];
 
     //########################################### Constants ################################################
@@ -36,6 +37,15 @@ class Service extends Model implements HasMedia
 
     //########################################### Relations ################################################
 
+    public function photographer()
+    {
+        return $this->belongsTo(Photographer::class);
+    }
+
+    public function service()
+    {
+        return $this->belongsTo(Service::class);
+    }
 
 }
 

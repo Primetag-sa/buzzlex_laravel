@@ -2,24 +2,25 @@
 
 namespace App\Models;
 
+use Filter\Traits\HasFilter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\HasMedia;
-use Spatie\MediaLibrary\InteractsWithMedia;
-
 /**
  * @method static self create(array $data)
  */
-class Service extends Model implements HasMedia
+class Review extends Model
 {
-    use HasFactory, InteractsWithMedia;
+    use HasFactory, HasFilter;
 
     /**
     * The attributes that are mass assignable.
     * @var array
     */
     protected $fillable = [
-        'name',
+        'user_id',
+        'photographer_id',
+        'review',
+        'rate'
     ];
 
     //########################################### Constants ################################################
@@ -36,6 +37,15 @@ class Service extends Model implements HasMedia
 
     //########################################### Relations ################################################
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function photographer()
+    {
+        return $this->belongsTo(Photographer::class);
+    }
 
 }
 

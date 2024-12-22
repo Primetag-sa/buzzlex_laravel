@@ -1,9 +1,10 @@
 <?php
 
 use App\Http\Controllers\Api\FCMController;
+use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\User\AuthController;
 use App\Http\Controllers\Api\User\PasswordController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\User\PhotographerController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -20,4 +21,15 @@ Route::middleware('auth:users')->group(function () {
     Route::put('change-password', [AuthController::class, 'changePassword'])->name('password.change');
 
     Route::post('update-fcm', [FCMController::class, 'updateFcmToken'])->name('update.fcm.token');
+
+    Route::apiResource('photographers', PhotographerController::class,[
+        'only' => ['index', 'show']
+    ]);
+    Route::prefix('photographers')->controller(PhotographerController::class)->group(function(){
+        Route::get('{photographers}/galleries', 'galleries');
+    });
+
+    Route::apiResource('reviews', ReviewController::class,[
+        'only' => ['store', 'show', 'index']
+    ]);
 });

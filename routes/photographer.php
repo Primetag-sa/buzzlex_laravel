@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\FCMController;
 use App\Http\Controllers\Api\Photographer\AuthController;
+use App\Http\Controllers\Api\Photographer\GalleryController;
 use App\Http\Controllers\Api\Photographer\PasswordController;
 use App\Http\Controllers\Api\Photographer\PlanController;
 use App\Http\Controllers\Photographer\MediaController;
