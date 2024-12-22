@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @method static self create(array $data)
  */
-class OrderAddon extends Model
+class PlanCondition extends Model
 {
     use HasFactory;
 
@@ -16,9 +16,8 @@ class OrderAddon extends Model
     * @var array
     */
     protected $fillable = [
-        'order_id',
-        'addon_id',
-        'price'
+        'plan_id',
+        'condition'
     ];
 
     //########################################### Constants ################################################
@@ -35,11 +34,10 @@ class OrderAddon extends Model
 
     //########################################### Relations ################################################
 
-    public function addon()
+    public function plan()
     {
-        return $this->belongsTo(PlanAddon::class);
+        return $this->belongsTo(Plan::class);
     }
-
 
 }
 
