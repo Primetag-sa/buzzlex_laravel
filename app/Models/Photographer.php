@@ -71,5 +71,30 @@ class Photographer extends Authenticatable
         return $this->hasMany(Addon::class);
     }
 
+    public function services()
+    {
+        return $this->hasMany(PhotographerService::class);
+    }
+
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
+    public function availability()
+    {
+        return $this->hasMany(PhotographerAvailability::class)->where('date_from', '>=', today());
+    }
+
+    public function galleries()
+    {
+        return $this->hasMany(Gallery::class);
+    }
+
+    public function plans()
+    {
+        return $this->hasMany(Plan::class);
+    }
+
 }
 
