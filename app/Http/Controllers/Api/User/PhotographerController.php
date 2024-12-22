@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Photographer\PlanResource;
 use App\Http\Resources\User\GalleryResource;
 use App\Http\Resources\User\PhotographerResource;
 use App\Models\Photographer;
@@ -44,5 +45,11 @@ class PhotographerController extends Controller
     {
         $galleries = $photographer->galleries;
         return GalleryResource::collection($galleries);
+    }
+
+    public function plans(Photographer $photographer)
+    {
+        $plans = $photographer->plans;
+        return PlanResource::collection($plans);
     }
 }

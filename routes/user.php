@@ -26,7 +26,8 @@ Route::middleware('auth:users')->group(function () {
         'only' => ['index', 'show']
     ]);
     Route::prefix('photographers')->controller(PhotographerController::class)->group(function(){
-        Route::get('{photographers}/galleries', 'galleries');
+        Route::get('{photographer}/galleries', 'galleries');
+        Route::get('{photographer}/plans', 'plans');
     });
 
     Route::apiResource('reviews', ReviewController::class,[
