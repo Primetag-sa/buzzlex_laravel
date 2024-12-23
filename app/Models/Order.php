@@ -41,6 +41,7 @@ class Order extends Model
     //########################################### Constants ################################################
     const PENDING = 'pending';
     const APPROVED = 'approved';
+    const DECLINED = 'declined';
 
     const DEFAULT_STATUS = SELF::PENDING;
 
@@ -67,6 +68,22 @@ class Order extends Model
 
     //########################################### Scopes ###################################################
 
+
+    //########################################### Functions ###################################################
+
+    public function approve()
+    {
+        $this->update([
+            'status' => self::APPROVED
+        ]);
+    }
+
+    public function decline()
+    {
+        $this->update([
+            'status' => self::DECLINED
+        ]);
+    }
 
     //########################################### Relations ################################################
 

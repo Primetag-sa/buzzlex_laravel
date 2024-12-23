@@ -40,5 +40,10 @@ Route::middleware('auth:photographers')->group(function () {
     Route::apiResource('orders', OrderController::class, [
         'only' => ['index', 'show']
     ]);
+
+    Route::prefix('orders')->controller(OrderController::class)->group(function () {
+        Route::put('{order}/approve', 'approve');
+        Route::put('{order}/decline', 'decline');
+    });
 });
 
