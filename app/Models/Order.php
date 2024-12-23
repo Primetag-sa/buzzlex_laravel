@@ -51,7 +51,7 @@ class Order extends Model
 
     //########################################### Accessors ################################################
 
-    public function getDayAtAttribute()
+    public function getDayAttribute()
     {
         if(!$this->date->isPast()){
             $date = Carbon::parse($this->date);
