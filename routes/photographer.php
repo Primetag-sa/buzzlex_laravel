@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\FCMController;
 use App\Http\Controllers\Api\Photographer\AuthController;
 use App\Http\Controllers\Api\Photographer\GalleryController;
+use App\Http\Controllers\Api\Photographer\OrderController;
 use App\Http\Controllers\Api\Photographer\PasswordController;
 use App\Http\Controllers\Api\Photographer\PlanController;
 use App\Http\Controllers\Photographer\MediaController;
@@ -35,5 +36,14 @@ Route::middleware('auth:photographers')->group(function () {
     Route::apiResource('plans', PlanController::class, [
         'only' => ['index', 'show', 'store', 'update', 'destroy']
     ]);
+
+    Route::apiResource('orders', OrderController::class, [
+        'only' => ['index', 'show']
+    ]);
+
+    Route::prefix('orders')->controller(OrderController::class)->group(function () {
+        Route::put('{order}/approve', 'approve');
+        Route::put('{order}/decline', 'decline');
+    });
 });
 
