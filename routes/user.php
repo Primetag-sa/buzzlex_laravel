@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\FCMController;
 use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\User\AuthController;
+use App\Http\Controllers\Api\User\OrderController;
 use App\Http\Controllers\Api\User\PasswordController;
 use App\Http\Controllers\Api\User\PhotographerController;
 use Illuminate\Support\Facades\Route;
@@ -32,5 +33,9 @@ Route::middleware('auth:users')->group(function () {
 
     Route::apiResource('reviews', ReviewController::class,[
         'only' => ['store', 'show', 'index']
+    ]);
+
+    Route::apiResource('orders', OrderController::class, [
+        'only' => ['index', 'show', 'store']
     ]);
 });

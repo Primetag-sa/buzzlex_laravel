@@ -40,6 +40,11 @@ class OrderAddon extends Model
         return $this->belongsTo(PlanAddon::class);
     }
 
+    public function order()
+    {
+        return $this->belongsTo(Order::class);
+    }
+
 
 }
 

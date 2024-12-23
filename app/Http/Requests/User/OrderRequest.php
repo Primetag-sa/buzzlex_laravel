@@ -3,6 +3,7 @@
 namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class OrderRequest extends FormRequest
 {
@@ -23,9 +24,9 @@ class OrderRequest extends FormRequest
     {
         return [
             'photographer_id' => ['required', 'exists:photographers,id'],
-            'plan_id' => ['required', 'exists:plans,id'],
+            'plan_id' => ['required', Rule::exists('plans', 'id')->where('photographer_id', $this->photographer_id)],
             'addons' => ['array'],
-            'addons.*' => ['integer', 'exists:addons,id'],
+            'addons.*' => ['integer', Rule::exists('plan_addons', 'id')->where('plan_id', $this->plan_id)],
             'name' => ['required', 'string', 'max:191'],
             'type' => ['required', 'string', 'max:191'],
             'date' => ['required', 'date', 'after:today'],
