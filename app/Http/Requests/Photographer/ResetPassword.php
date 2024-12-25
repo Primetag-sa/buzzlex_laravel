@@ -24,7 +24,6 @@ class ResetPassword extends FormRequest
         return [
             'phone' => ['required', 'exists:photographers,phone'],
             'password' => ['required', 'min:8', 'confirmed'],
-            'otp' => ['required', 'exists:photographers,otp']
         ];
     }
 }
