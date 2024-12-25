@@ -31,6 +31,7 @@ class ProfileRequest extends FormRequest
             'email' => ['required', 'email', 'max:191', 'unique:photographers,email,'. auth()->id()],
             'latitude' => ['nullable'],
             'longitude' => ['nullable'],
+            'profile_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,heif']
         ];
     }
 }

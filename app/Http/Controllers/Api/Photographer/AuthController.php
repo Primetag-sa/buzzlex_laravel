@@ -74,7 +74,11 @@ class AuthController extends Controller
     {
         $user = auth()->user();
         $data = $request->validated();
-        $user->update($data);
+        $user->update(Arr::except($data, ['profile_image']));
+        if(key_exists('profile_image', $data) && !is_null($data['profile_image'])){
+            $user->clearMediaCollection('profile_image');
+            $user->addMedia($data['profile_image'])->toMediaCollection('profile_image');
+        }
         return new ProfileResource($user);
     }
 
