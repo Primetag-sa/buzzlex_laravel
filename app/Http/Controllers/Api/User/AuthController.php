@@ -92,4 +92,14 @@ class AuthController extends Controller
         $user->save();
         return new SuccessResource([],'OTP sent successfully');
     }
+
+    public function logout()
+    {
+        $user = auth()->user();
+        $user->tokens()->delete();
+        $user->update([
+            'fcm_token' => null
+        ]);
+        return new SuccessResource([], 'Logged out successfully');
+    }
 }

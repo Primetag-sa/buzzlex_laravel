@@ -20,6 +20,7 @@ Route::post('resend-otp', [AuthController::class, 'resendOtp']);
 
 
 Route::middleware('auth:photographers')->group(function () {
+    Route::get('logout', [AuthController::class, 'logout'])->name('logout');
     Route::post('verify-otp', [AuthController::class, 'verifyOtp'])->name('verifyOtp');
     Route::get('profile', [AuthController::class, 'profile'])->name('profile.show');
     Route::put('profile', [AuthController::class, 'updateProfile'])->name('profile.update');
