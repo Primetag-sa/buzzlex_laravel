@@ -15,6 +15,8 @@ Route::post('login', [AuthController::class, 'login'])->name('login');
 Route::post('forgot-password', [PasswordController::class, 'forgot'])->name('forgot-password');
 Route::post('reset-password', [PasswordController::class, 'reset'])->name('reset-password');
 
+Route::post('resend-otp', [AuthController::class, 'resendOtp']);
+
 Route::middleware('auth:users')->group(function () {
     Route::post('verify-otp', [AuthController::class, 'verifyOtp'])->name('verifyOtp');
     Route::get('profile', [AuthController::class, 'profile'])->name('profile.show');

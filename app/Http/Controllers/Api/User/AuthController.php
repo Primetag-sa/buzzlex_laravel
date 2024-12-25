@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\OtpRequest;
 use App\Http\Requests\Photographer\ChangePasswordRequest;
+use App\Http\Requests\User\ForgotPassword;
 use App\Http\Requests\User\LoginRequest;
 use App\Http\Requests\User\ProfileRequest;
 use App\Http\Requests\User\RegisterRequest;
@@ -82,5 +83,13 @@ class AuthController extends Controller
             'password' => Hash::make($request->input('password'))
         ]);
         return new SuccessResource([], 'Password Changed Successfully');
+    }
+
+    public function resendOtp(ForgotPassword $request)
+    {
+        $user = User::where('phone', $request->phone)->first();
+        $user->otp = rand(1000, 9999);
+        $user->save();
+        return new SuccessResource([],'OTP sent successfully');
     }
 }

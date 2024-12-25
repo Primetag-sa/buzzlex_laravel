@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Photographer;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\OtpRequest;
+use App\Http\Requests\Photographer\ForgotPassword;
 use App\Http\Requests\Photographer\InformationRequest;
 use App\Http\Requests\Photographer\LoginRequest;
 use App\Http\Requests\Photographer\ProfileRequest;
@@ -94,5 +95,13 @@ class AuthController extends Controller
         $user->services()->delete();
         $user->services()->createMany(Arr::get($data, 'services', []));
         return new SuccessResource([], 'Data Updated Successfully');
+    }
+
+    public function resendOtp(ForgotPassword $request)
+    {
+        $user = Photographer::where('phone', $request->phone)->first();
+        $user->otp = rand(1000, 9999);
+        $user->save();
+        return new SuccessResource([],'OTP sent successfully');
     }
 }
