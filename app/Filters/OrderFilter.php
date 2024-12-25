@@ -28,4 +28,18 @@ class OrderFilter extends Filter
             'all_time' => $this->query
         };
     }
+
+    protected function filterUpcoming($value)
+    {
+        if($value && !in_array($value, [0, '0'])){
+            $this->query->upcoming();
+        }
+    }
+
+    protected function filterLatest($value)
+    {
+        if($value && !in_array($value, [0, '0'])){
+            $this->query->latest();
+        }
+    }
 }
