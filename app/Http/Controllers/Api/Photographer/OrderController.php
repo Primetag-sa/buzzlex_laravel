@@ -16,7 +16,9 @@ class OrderController extends Controller
         $orders = Order::filter($request->only([
             'status',
             'date',
-            'type'
+            'type',
+            'upcoming',
+            'latest'
         ]))
                     ->where('photographer_id', $user->id)
                     ->paginate();

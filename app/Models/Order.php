@@ -68,6 +68,25 @@ class Order extends Model
 
     //########################################### Scopes ###################################################
 
+    public function scopeApproved($query)
+    {
+        return $query->where('status', SELF::APPROVED);
+    }
+
+    public function scopeDeclined($query)
+    {
+        return $query->where('status', SELF::DECLINED);
+    }
+
+    public function scopeUpcoming($query)
+    {
+        return $query->whereDate('date' , '>', today())->orderBy('date', 'desc');
+    }
+
+    public function scopeLatest($query)
+    {
+        return $query->where('status', self::PENDING);
+    }
 
     //########################################### Functions ###################################################
 
