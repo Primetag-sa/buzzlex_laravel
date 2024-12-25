@@ -54,8 +54,13 @@ class AuthController extends Controller
 
     public function verifyOtp(OtpRequest $request)
     {
-        $user = auth()->user();
         $data = $request->validated();
+        $user = Photographer::query()
+                    ->where('phone',$data['phone'])
+                    ->first();
+        if(!$user){
+            return response()->json(['message' => 'User not found'], 404);
+        }
         if($user->otp != $data['otp']){
             return response()->json(['message' => 'Invalid OTP'], 401);
         }

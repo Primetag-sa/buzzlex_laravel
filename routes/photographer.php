@@ -17,11 +17,11 @@ Route::post('forgot-password', [PasswordController::class, 'forgot'])->name('for
 Route::post('reset-password', [PasswordController::class, 'reset'])->name('reset-password');
 
 Route::post('resend-otp', [AuthController::class, 'resendOtp']);
+Route::post('verify-otp', [AuthController::class, 'verifyOtp'])->name('verifyOtp');
 
 
 Route::middleware('auth:photographers')->group(function () {
     Route::get('logout', [AuthController::class, 'logout'])->name('logout');
-    Route::post('verify-otp', [AuthController::class, 'verifyOtp'])->name('verifyOtp');
     Route::get('profile', [AuthController::class, 'profile'])->name('profile.show');
     Route::put('profile', [AuthController::class, 'updateProfile'])->name('profile.update');
     Route::put('information', [AuthController::class, 'updateInformation'])->name('information.update');
