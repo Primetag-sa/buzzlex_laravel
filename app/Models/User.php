@@ -55,6 +55,11 @@ class User extends Authenticatable implements HasMedia
         'dob' => 'date',
     ];
 
+    public function routeNotificationForFcm()
+    {
+        return $this->fcm_token;
+    }
+
     public function favorites()
     {
         return $this->hasMany(UserFavorite::class);
@@ -63,5 +68,15 @@ class User extends Authenticatable implements HasMedia
     public function reviews()
     {
         return $this->hasMany(Review::class);
+    }
+
+    public function messages()
+    {
+        return $this->morphMany(Message::class, 'sender');
+    }
+
+    public function conversations()
+    {
+        return $this->hasMany(Conversation::class);
     }
 }
