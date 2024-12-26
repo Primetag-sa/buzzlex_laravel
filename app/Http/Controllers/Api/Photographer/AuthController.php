@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Photographer;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\OtpRequest;
+use App\Http\Requests\Photographer\ForgotPassword;
 use App\Http\Requests\Photographer\InformationRequest;
 use App\Http\Requests\Photographer\LoginRequest;
 use App\Http\Requests\Photographer\ProfileRequest;
@@ -53,8 +54,13 @@ class AuthController extends Controller
 
     public function verifyOtp(OtpRequest $request)
     {
-        $user = auth()->user();
         $data = $request->validated();
+        $user = Photographer::query()
+                    ->where('phone',$data['phone'])
+                    ->first();
+        if(!$user){
+            return response()->json(['message' => 'User not found'], 404);
+        }
         if($user->otp != $data['otp']){
             return response()->json(['message' => 'Invalid OTP'], 401);
         }
@@ -73,7 +79,11 @@ class AuthController extends Controller
     {
         $user = auth()->user();
         $data = $request->validated();
-        $user->update($data);
+        $user->update(Arr::except($data, ['profile_image']));
+        if(key_exists('profile_image', $data) && !is_null($data['profile_image'])){
+            $user->clearMediaCollection('profile_image');
+            $user->addMedia($data['profile_image'])->toMediaCollection('profile_image');
+        }
         return new ProfileResource($user);
     }
 
@@ -94,5 +104,23 @@ class AuthController extends Controller
         $user->services()->delete();
         $user->services()->createMany(Arr::get($data, 'services', []));
         return new SuccessResource([], 'Data Updated Successfully');
+    }
+
+    public function resendOtp(ForgotPassword $request)
+    {
+        $user = Photographer::where('phone', $request->phone)->first();
+        $user->otp = rand(1000, 9999);
+        $user->save();
+        return new SuccessResource([],'OTP sent successfully');
+    }
+
+    public function logout()
+    {
+        $user = auth()->user();
+        $user->tokens()->delete();
+        $user->update([
+            'fcm_token' => null
+        ]);
+        return new SuccessResource([], 'Logged out successfully');
     }
 }

@@ -22,12 +22,8 @@ class PasswordController extends Controller
     public function reset(ResetPassword $request)
     {
         $user = Photographer::where('phone', $request->phone)->first();
-        if ($user->otp == $request->otp) {
-            $user->password = bcrypt($request->password);
-            $user->save();
-            return new SuccessResource([],'Password reset successfully');
-        } else {
-            return response()->json(['message' => 'Invalid OTP'], 400);
-        }
+        $user->password = bcrypt($request->password);
+        $user->save();
+        return new SuccessResource([],'Password reset successfully');
     }
 }

@@ -30,6 +30,7 @@ public function rules(): array
             'phone' => ['required', 'string', 'max:20', 'unique:users,phone,'. auth()->id()],
             'latitude' => ['nullable'],
             'longitude' => ['nullable'],
+            'profile_image' => ['nullable', 'image', 'mimes:jpg,jpeg,png,heif']
         ];
     }
 }

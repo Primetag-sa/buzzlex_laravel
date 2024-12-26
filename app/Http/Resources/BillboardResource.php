@@ -19,7 +19,8 @@ class BillboardResource extends JsonResource
             'name' => $this->name,
             'screen' => $this->screen,
             'filters' => $this->filters,
-            'media' => $this->getFirstMedia('image')
+            'type' => $this->type,
+            'media' => new MediaResource($this->getFirstMedia('image'))
         ];
     }
 }
