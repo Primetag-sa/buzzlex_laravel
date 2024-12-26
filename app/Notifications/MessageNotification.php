@@ -36,8 +36,7 @@ class MessageNotification extends Notification
     {
         return (new FcmMessage(notification: new FcmNotification(
                 title: 'New Message',
-                body: 'Your account has been activated.',
-                image: 'http://example.com/url-to-image-here.png'
+                body: $this->message,
         )));
     }
 }
