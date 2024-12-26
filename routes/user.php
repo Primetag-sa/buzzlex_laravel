@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\FCMController;
 use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\User\AuthController;
+use App\Http\Controllers\Api\User\ChatController;
 use App\Http\Controllers\Api\User\OrderController;
 use App\Http\Controllers\Api\User\PasswordController;
 use App\Http\Controllers\Api\User\PhotographerController;
@@ -42,4 +43,10 @@ Route::middleware('auth:users')->group(function () {
     Route::apiResource('orders', OrderController::class, [
         'only' => ['index', 'show', 'store']
     ]);
+
+    Route::prefix('chat')->group(function(){
+        Route::post('send-message', [ChatController::class, 'store']);
+        Route::get('conversations', [ChatController::class, 'index']);
+        Route::get('conversation/{conversation}', [ChatController::class, 'show']);
+    });
 });
