@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api\Photographer;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Photographer\MessageRequest;
 use App\Http\Resources\Photographer\ConversationResource;
+use App\Http\Resources\Photographer\MessageResource;
 use App\Http\Resources\SuccessResource;
 use App\Models\Conversation;
 use App\Notifications\MessageNotification;
@@ -11,30 +13,39 @@ use Illuminate\Http\Request;
 
 class ChatController extends Controller
 {
-    public function store(Request $request)
+    public function store(MessageRequest $request)
     {
-        $request->validate([
-            'message' => 'required',
-            'user_id' => 'required|exists:users,id'
-        ]);
+        $data = $request->validated();
         $user = auth()->user();
         $conversation = Conversation::firstOrCreate([
             'photographer_id' => $user->id,
             'user_id' => $request->user_id
         ]);
 
-        $user->messages()->create([
-            'message' => $request->message,
+        $message = $user->messages()->create([
+            'message' => $data['message'] ?? null,
             'conversation_id' => $conversation->id
         ]);
 
-        $conversation->user->notify(new MessageNotification($request->message));
+        if(key_exists('media', $data) && is_array($data['media'])){
+            foreach ($data['media'] as $media) {
+                $message->addMedia($media)->toMediaCollection('images');
+            }
+        }
+        if(key_exists('record', $data) && !is_null($data['record'])){
+            $message->addMedia($media)->toMediaCollection('record');
+        }
+        $resource = new MessageResource($message);
+
+        $conversation->user->notify(new MessageNotification($resource));
         return new SuccessResource([],"Message sent successfully");
     }
 
-    public function show(Conversation $conversations)
+    public function messages(Conversation $conversation)
     {
-        return new ConversationResource($conversations);
+        $conversation->messages()->whereNull('read_at')->update(['read_at' => now()]);
+        $messages = $conversation->messages()->paginate();
+        return MessageResource::collection($messages);
     }
 
     public function index()
