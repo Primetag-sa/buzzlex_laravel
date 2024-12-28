@@ -36,7 +36,7 @@ class MessageNotification extends Notification
     {
         return (new FcmMessage(notification: new FcmNotification(
                 title: 'New Message',
-                body: $this->message,
+                body: json_encode($this->message),
         )));
     }
 }

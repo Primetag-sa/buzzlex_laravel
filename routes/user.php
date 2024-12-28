@@ -44,9 +44,9 @@ Route::middleware('auth:users')->group(function () {
         'only' => ['index', 'show', 'store']
     ]);
 
-    Route::prefix('chat')->group(function(){
-        Route::post('send-message', [ChatController::class, 'store']);
-        Route::get('conversations', [ChatController::class, 'index']);
-        Route::get('conversation/{conversation}', [ChatController::class, 'show']);
+    Route::prefix('chat')->controller(ChatController::class)->group(function(){
+        Route::post('send-message', 'store');
+        Route::get('conversations', 'index');
+        Route::get('conversations/{conversation}', 'messages');
     });
 });
