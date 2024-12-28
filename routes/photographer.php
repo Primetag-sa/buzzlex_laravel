@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\FCMController;
 use App\Http\Controllers\Api\Photographer\AuthController;
+use App\Http\Controllers\Api\Photographer\ChatController;
 use App\Http\Controllers\Api\Photographer\GalleryController;
 use App\Http\Controllers\Api\Photographer\OrderController;
 use App\Http\Controllers\Api\Photographer\PasswordController;
@@ -48,6 +49,12 @@ Route::middleware('auth:photographers')->group(function () {
     Route::prefix('orders')->controller(OrderController::class)->group(function () {
         Route::put('{order}/approve', 'approve');
         Route::put('{order}/decline', 'decline');
+    });
+
+    Route::prefix('chat')->controller(ChatController::class)->group(function(){
+        Route::post('send-message', 'store');
+        Route::get('conversations', 'index');
+        Route::get('conversations/{conversation}', 'messages');
     });
 });
 

@@ -95,5 +95,14 @@ class Photographer extends Authenticatable implements HasMedia
         return $this->hasMany(Plan::class);
     }
 
+    public function messages()
+    {
+        return $this->morphMany(Message::class, 'sender');
+    }
+
+    public function conversations()
+    {
+        return $this->hasMany(Conversation::class);
+    }
 }
 
