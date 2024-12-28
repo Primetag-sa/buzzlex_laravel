@@ -28,9 +28,13 @@ class Conversation extends Model
 
     public function getLastMessageAttribute()
     {
-        return $this->messages()->first()->message ?? null;
+        return $this->messages()->first() ?? null;
     }
 
+    public function getUnreadCountAttribute()
+    {
+        return $this->messages()->whereNull('read_at')->count();
+    }
     //########################################### Mutators #################################################
 
 
