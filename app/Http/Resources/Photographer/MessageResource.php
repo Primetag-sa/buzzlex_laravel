@@ -2,10 +2,11 @@
 
 namespace App\Http\Resources\Photographer;
 
+use App\Http\Resources\MediaResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ConversationResource extends JsonResource
+class MessageResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,9 +17,11 @@ class ConversationResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->user->name,
-            'last_message' => new MessageResource($this->last_message),
-            'unread_count' => $this->unread_count
+            'message' => $this->message,
+            'media' => MediaResource::collection($this->getMedia('images')),
+            'record' => new MediaResource($this->getFirstMedia('record')),
+            'created_at' => $this->created_at,
+            'read_at' => $this->read_at
         ];
     }
 }
