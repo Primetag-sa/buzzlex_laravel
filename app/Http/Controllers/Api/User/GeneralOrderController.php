@@ -22,12 +22,13 @@ class GeneralOrderController extends Controller
     public function index()
     {
         $user = auth()->user();
-        $orders = $user->generalOrders()->paginate();
+        $orders = $user->generalOrders()->withCount('proposals')->paginate();
         return GeneralOrderResource::collection($orders);
     }
 
     public function show(GeneralOrder $generalOrder)
     {
+        $generalOrder->load('proposals');
         return new GeneralOrderResource($generalOrder);
     }
 
