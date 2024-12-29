@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\FCMController;
 use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\User\AuthController;
 use App\Http\Controllers\Api\User\ChatController;
+use App\Http\Controllers\Api\User\GeneralOrderController;
 use App\Http\Controllers\Api\User\OrderController;
 use App\Http\Controllers\Api\User\PasswordController;
 use App\Http\Controllers\Api\User\PhotographerController;
@@ -49,4 +50,8 @@ Route::middleware('auth:users')->group(function () {
         Route::get('conversations', 'index');
         Route::get('conversations/{conversation}', 'messages');
     });
+
+    Route::apiResource('general-orders', GeneralOrderController::class, [
+        'only' => ['index', 'show', 'store', 'destroy']
+    ]);
 });
