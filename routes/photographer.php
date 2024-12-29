@@ -4,10 +4,12 @@ use App\Http\Controllers\Api\FCMController;
 use App\Http\Controllers\Api\Photographer\AuthController;
 use App\Http\Controllers\Api\Photographer\ChatController;
 use App\Http\Controllers\Api\Photographer\GalleryController;
+use App\Http\Controllers\Api\Photographer\GeneralOrderController;
 use App\Http\Controllers\Api\Photographer\OrderController;
 use App\Http\Controllers\Api\Photographer\PasswordController;
 use App\Http\Controllers\Api\Photographer\PlanController;
 use App\Http\Controllers\Photographer\MediaController;
+use App\Models\GeneralOrder;
 use Illuminate\Support\Facades\Route;
 
 
@@ -55,6 +57,12 @@ Route::middleware('auth:photographers')->group(function () {
         Route::post('send-message', 'store');
         Route::get('conversations', 'index');
         Route::get('conversations/{conversation}', 'messages');
+    });
+
+    Route::prefix('general-orders')->controller(GeneralOrderController::class)->group(function(){
+        Route::get('/', 'index');
+        Route::get('{generalOrder}', 'show');
+        Route::put('send-proposal', 'sendProposal');
     });
 });
 
