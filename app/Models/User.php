@@ -79,4 +79,9 @@ class User extends Authenticatable implements HasMedia
     {
         return $this->hasMany(Conversation::class);
     }
+
+    public function generalOrders()
+    {
+        return $this->hasMany(GeneralOrder::class);
+    }
 }
