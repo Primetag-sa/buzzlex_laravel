@@ -2,13 +2,12 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 /**
  * @method static self create(array $data)
  */
-class GeneralOrder extends Model
+class Proposal extends Model
 {
     use HasFactory;
 
@@ -17,20 +16,10 @@ class GeneralOrder extends Model
     * @var array
     */
     protected $fillable = [
-        'user_id',
-        'name',
-        'type',
-        'status',
-        'latitude',
-        'longitude',
-        'address',
-        'date',
-        'phone',
-        'email'
-    ];
-
-    protected $casts = [
-        'date' => 'date',
+        'general_order_id',
+        'photographer_id',
+        'plan_id',
+        'price'
     ];
 
     //########################################### Constants ################################################
@@ -49,38 +38,27 @@ class GeneralOrder extends Model
 
     //########################################### Accessors ################################################
 
-    public function getDayAttribute()
-    {
-        if(!$this->date->isPast()){
-            $date = Carbon::parse($this->date);
-            $day = $date->format('l');
-            $days = today()->diffInDays($date);
-            return "$day, after $days days/s";
-        }
-        return null;
-    }
 
     //########################################### Mutators #################################################
 
 
     //########################################### Scopes ###################################################
 
-    public function scopePending($query)
-    {
-        $query->where('status', self::PENDING);
-    }
-
 
     //########################################### Relations ################################################
-
-    public function user()
+    public function generalOrder()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(GeneralOrder::class);
     }
 
-    public function proposals()
+    public function photographer()
     {
-        return $this->hasMany(Proposal::class);
+        return $this->belongsTo(Photographer::class);
+    }
+
+    public function plan()
+    {
+        return $this->belongsTo(Plan::class);
     }
 }
 
