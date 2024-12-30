@@ -3,6 +3,8 @@
 use App\Http\Controllers\Api\FCMController;
 use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\User\AuthController;
+use App\Http\Controllers\Api\User\ChatController;
+use App\Http\Controllers\Api\User\OrderController;
 use App\Http\Controllers\Api\User\PasswordController;
 use App\Http\Controllers\Api\User\PhotographerController;
 use Illuminate\Support\Facades\Route;
@@ -14,8 +16,12 @@ Route::post('login', [AuthController::class, 'login'])->name('login');
 Route::post('forgot-password', [PasswordController::class, 'forgot'])->name('forgot-password');
 Route::post('reset-password', [PasswordController::class, 'reset'])->name('reset-password');
 
+Route::post('resend-otp', [AuthController::class, 'resendOtp']);
+Route::post('verify-otp', [AuthController::class, 'verifyOtp'])->name('verifyOtp');
+
+
 Route::middleware('auth:users')->group(function () {
-    Route::post('verify-otp', [AuthController::class, 'verifyOtp'])->name('verifyOtp');
+    Route::get('logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('profile', [AuthController::class, 'profile'])->name('profile.show');
     Route::put('profile', [AuthController::class, 'updateProfile'])->name('profile.update');
     Route::put('change-password', [AuthController::class, 'changePassword'])->name('password.change');
@@ -33,4 +39,14 @@ Route::middleware('auth:users')->group(function () {
     Route::apiResource('reviews', ReviewController::class,[
         'only' => ['store', 'show', 'index']
     ]);
+
+    Route::apiResource('orders', OrderController::class, [
+        'only' => ['index', 'show', 'store']
+    ]);
+
+    Route::prefix('chat')->controller(ChatController::class)->group(function(){
+        Route::post('send-message', 'store');
+        Route::get('conversations', 'index');
+        Route::get('conversations/{conversation}', 'messages');
+    });
 });

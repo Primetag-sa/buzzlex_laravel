@@ -4,21 +4,27 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
+
 /**
  * @method static self create(array $data)
  */
-class OrderAddon extends Model
+class Message extends Model implements HasMedia
 {
-    use HasFactory;
+    use HasFactory, InteractsWithMedia;
 
     /**
     * The attributes that are mass assignable.
     * @var array
     */
     protected $fillable = [
-        'order_id',
-        'addon_id',
-        'price'
+        'sender_type',
+        'sender_id',
+        'message',
+        'read_at',
+        'conversation_id',
     ];
 
     //########################################### Constants ################################################
@@ -35,16 +41,15 @@ class OrderAddon extends Model
 
     //########################################### Relations ################################################
 
-    public function addon()
+    public function sender(): MorphTo
     {
-        return $this->belongsTo(PlanAddon::class);
+        return $this->morphTo();
     }
 
-    public function order()
+    public function conversation()
     {
-        return $this->belongsTo(Order::class);
+        return $this->belongsTo(Conversation::class);
     }
-
 
 }
 

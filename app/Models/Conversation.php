@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * @method static self create(array $data)
  */
-class OrderAddon extends Model
+class Conversation extends Model
 {
     use HasFactory;
 
@@ -16,9 +16,9 @@ class OrderAddon extends Model
     * @var array
     */
     protected $fillable = [
-        'order_id',
-        'addon_id',
-        'price'
+        'user_id',
+        'photographer_id',
+        'conversation_name',
     ];
 
     //########################################### Constants ################################################
@@ -26,7 +26,15 @@ class OrderAddon extends Model
 
     //########################################### Accessors ################################################
 
+    public function getLastMessageAttribute()
+    {
+        return $this->messages()->first() ?? null;
+    }
 
+    public function getUnreadCountAttribute()
+    {
+        return $this->messages()->whereNull('read_at')->count();
+    }
     //########################################### Mutators #################################################
 
 
@@ -35,16 +43,20 @@ class OrderAddon extends Model
 
     //########################################### Relations ################################################
 
-    public function addon()
+    public function user()
     {
-        return $this->belongsTo(PlanAddon::class);
+        return $this->belongsTo(User::class);
     }
 
-    public function order()
+    public function photographer()
     {
-        return $this->belongsTo(Order::class);
+        return $this->belongsTo(Photographer::class);
     }
 
+    public function messages()
+    {
+        return $this->hasMany(Message::class)->orderBy('id', 'desc');
+    }
 
 }
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Photographer;
 
+use App\Http\Resources\MediaResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -20,6 +21,7 @@ class ProfileResource extends JsonResource
             'gender' => $this->gender,
             'email' => $this->email,
             'phone' => $this->phone,
+            'profile_image' => new MediaResource($this->getFirstMedia('profile_image')),
             'location' => [
                 'country' => $this->country,
                 'city' => $this->city,

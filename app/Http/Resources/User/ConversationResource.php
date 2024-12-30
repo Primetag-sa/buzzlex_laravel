@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources;
+namespace App\Http\Resources\User;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class BillboardResource extends JsonResource
+class ConversationResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,11 +16,9 @@ class BillboardResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'screen' => $this->screen,
-            'filters' => $this->filters,
-            'type' => $this->type,
-            'media' => new MediaResource($this->getFirstMedia('image'))
-        ];
+            'name' => $this->user->name,
+            'last_message' => new MessageResource($this->last_message),
+            'unread_count' => $this->unread_count
+        ];;
     }
 }

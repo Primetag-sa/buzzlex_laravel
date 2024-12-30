@@ -7,10 +7,12 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasMedia
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, InteractsWithMedia;
 
     /**
      * The attributes that are mass assignable.
@@ -53,6 +55,11 @@ class User extends Authenticatable
         'dob' => 'date',
     ];
 
+    public function routeNotificationForFcm()
+    {
+        return $this->fcm_token;
+    }
+
     public function favorites()
     {
         return $this->hasMany(UserFavorite::class);
@@ -61,5 +68,15 @@ class User extends Authenticatable
     public function reviews()
     {
         return $this->hasMany(Review::class);
+    }
+
+    public function messages()
+    {
+        return $this->morphMany(Message::class, 'sender');
+    }
+
+    public function conversations()
+    {
+        return $this->hasMany(Conversation::class);
     }
 }

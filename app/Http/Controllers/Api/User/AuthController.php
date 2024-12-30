@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\User;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\OtpRequest;
 use App\Http\Requests\Photographer\ChangePasswordRequest;
+use App\Http\Requests\User\ForgotPassword;
 use App\Http\Requests\User\LoginRequest;
 use App\Http\Requests\User\ProfileRequest;
 use App\Http\Requests\User\RegisterRequest;
@@ -14,6 +15,7 @@ use App\Http\Resources\User\ProfileResource;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
@@ -51,8 +53,13 @@ class AuthController extends Controller
 
     public function verifyOtp(OtpRequest $request)
     {
-        $user = auth()->user();
         $data = $request->validated();
+        $user = User::query()
+                    ->where('phone',$data['phone'])
+                    ->first();
+        if(!$user){
+            return response()->json(['message' => 'User not found'], 404);
+        }
         if($user->otp != $data['otp']){
             return response()->json(['message' => 'Invalid OTP'], 401);
         }
@@ -71,7 +78,11 @@ class AuthController extends Controller
     {
         $user = auth()->user();
         $data = $request->validated();
-        $user->update($data);
+        $user->update(Arr::except($data, ['profile_image']));
+        if(key_exists('profile_image', $data) && !is_null($data['profile_image'])){
+            $user->clearMediaCollection('profile_image');
+            $user->addMedia($data['profile_image'])->toMediaCollection('profile_image');
+        }
         return new ProfileResource($user);
     }
 
@@ -82,5 +93,23 @@ class AuthController extends Controller
             'password' => Hash::make($request->input('password'))
         ]);
         return new SuccessResource([], 'Password Changed Successfully');
+    }
+
+    public function resendOtp(ForgotPassword $request)
+    {
+        $user = User::where('phone', $request->phone)->first();
+        $user->otp = rand(1000, 9999);
+        $user->save();
+        return new SuccessResource([],'OTP sent successfully');
+    }
+
+    public function logout()
+    {
+        $user = auth()->user();
+        $user->tokens()->delete();
+        $user->update([
+            'fcm_token' => null
+        ]);
+        return new SuccessResource([], 'Logged out successfully');
     }
 }
