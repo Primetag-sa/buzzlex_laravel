@@ -3,15 +3,14 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use Filter\Traits\HasFilter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 /**
  * @method static self create(array $data)
  */
-class Order extends Model
+class GeneralOrder extends Model
 {
-    use HasFactory, HasFilter;
+    use HasFactory;
 
     /**
     * The attributes that are mass assignable.
@@ -19,19 +18,15 @@ class Order extends Model
     */
     protected $fillable = [
         'user_id',
-        'photographer_id',
-        'plan_id',
         'name',
         'type',
-        'date',
         'status',
         'latitude',
         'longitude',
         'address',
-        'email',
+        'date',
         'phone',
-        'total_price',
-        'discount'
+        'email'
     ];
 
     protected $casts = [
@@ -39,6 +34,7 @@ class Order extends Model
     ];
 
     //########################################### Constants ################################################
+
     const PENDING = 'pending';
     const APPROVED = 'approved';
     const DECLINED = 'declined';
@@ -69,41 +65,11 @@ class Order extends Model
 
     //########################################### Scopes ###################################################
 
-    public function scopeApproved($query)
+    public function scopePending($query)
     {
-        return $query->where('status', SELF::APPROVED);
+        $query->where('status', self::PENDING);
     }
 
-    public function scopeDeclined($query)
-    {
-        return $query->where('status', SELF::DECLINED);
-    }
-
-    public function scopeUpcoming($query)
-    {
-        return $query->whereDate('date' , '>', today())->orderBy('date', 'desc');
-    }
-
-    public function scopeLatest($query)
-    {
-        return $query->where('status', self::PENDING);
-    }
-
-    //########################################### Functions ###################################################
-
-    public function approve()
-    {
-        $this->update([
-            'status' => self::APPROVED
-        ]);
-    }
-
-    public function decline()
-    {
-        $this->update([
-            'status' => self::DECLINED
-        ]);
-    }
 
     //########################################### Relations ################################################
 
@@ -112,19 +78,9 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function photographer()
+    public function proposals()
     {
-        return $this->belongsTo(Photographer::class);
-    }
-
-    public function plan()
-    {
-        return $this->belongsTo(Plan::class);
-    }
-
-    public function addons()
-    {
-        return $this->hasMany(OrderAddon::class, 'addon_id');
+        return $this->hasMany(Proposal::class);
     }
 }
 
