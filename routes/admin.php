@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Admin\AuthController;
+use App\Http\Controllers\Api\Admin\SettingController;
 use App\Http\Controllers\Api\Admin\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,4 +18,12 @@ Route::prefix('users')->controller(UserController::class)->group(function () {
     Route::get('/{user}', 'show');
     Route::put('/{user}', 'update');
     Route::post('/delete', 'delete');
+});
+
+
+Route::prefix('settings')->controller(SettingController::class)->group(function() {
+    Route::get('/', 'index');
+    Route::post('/', 'store');
+    Route::get('/{setting}', 'show');
+    Route::delete('/{setting}', 'destroy');
 });
