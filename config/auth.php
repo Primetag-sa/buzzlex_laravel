@@ -49,6 +49,11 @@ return [
         'photographers' => [
             'driver' => 'sanctum',
             'provider' => 'photographers',
+        ],
+
+        'admins' => [
+            'driver' => 'sanctum',
+            'provider' => 'photographers',
         ]
     ],
 
@@ -78,6 +83,11 @@ return [
         'photographers' => [
             'driver' => 'eloquent',
             'model' => App\Models\Photographer::class,
+        ],
+
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class,
         ],
     ],
 
@@ -109,6 +119,12 @@ return [
         ],
         'photographers' => [
             'provider' => 'photographers',
+            'table' => 'password_reset_tokens',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'admins' => [
+            'provider' => 'admins',
             'table' => 'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,

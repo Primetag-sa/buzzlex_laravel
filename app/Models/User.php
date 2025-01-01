@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use Filter\Traits\HasFilter;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -12,7 +14,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 
 class User extends Authenticatable implements HasMedia
 {
-    use HasApiTokens, HasFactory, Notifiable, InteractsWithMedia;
+    use HasApiTokens, HasFactory, HasFilter, Notifiable, InteractsWithMedia;
 
     /**
      * The attributes that are mass assignable.
@@ -55,6 +57,11 @@ class User extends Authenticatable implements HasMedia
         'dob' => 'date',
     ];
 
+    public function getTotalSpentAttribute()
+    {
+        return $this->orders()->sum('total_price');
+    }
+
     public function routeNotificationForFcm()
     {
         return $this->fcm_token;
@@ -83,5 +90,10 @@ class User extends Authenticatable implements HasMedia
     public function generalOrders()
     {
         return $this->hasMany(GeneralOrder::class);
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
     }
 }
